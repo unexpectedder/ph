@@ -6,7 +6,7 @@
 /*   By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:34:28 by iazoubi           #+#    #+#             */
-/*   Updated: 2024/10/30 09:03:10 by iazoubi          ###   ########.fr       */
+/*   Updated: 2024/10/30 16:49:02 by iazoubi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef struct s_table
     long            time_sleep;
     long            max_meals;
     long            start_sim;
-    _Atomic bool            end_sim;
-	int				death_flag;
+    bool            end_sim;
+	// int				death_flag;
     pthread_mutex_t data_mutex;    // Protect shared data
     pthread_mutex_t print_mutex;   // Print synchronization
 	pthread_mutex_t	death_mutex;
@@ -73,7 +73,7 @@ void 	*routine(void *arg);
 int 	start_simulation(t_table *table);
 void 	*moni(void *arg);
 void	is_sleep(long wait_time);
-void 	*dining_cycle(t_philo *philo, t_table *table, bool *should_continue);
+void 	*dining_cycle(t_philo *philo, t_table *table);
 int 	death_checker(t_table *table, int ph_index);
 
 

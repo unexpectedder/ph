@@ -6,7 +6,7 @@
 #    By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/09/09 06:34:46 by iazoubi           #+#    #+#              #
-#    Updated: 2024/10/30 08:43:03 by iazoubi          ###   ########.fr        #
+#    Updated: 2024/10/31 14:22:40 by iazoubi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 CC = cc
 
 CFLAGS = -Wall -Wextra -Werror
-CFLAGS = -pthread -g -fsanitize=thread
+CFLAGS = -pthread -g #-fsanitize=undefined
 
 SRCS = main.c parse.c philo_utils.c init.c moni.c
 

@@ -6,24 +6,12 @@
 /*   By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:34:17 by iazoubi           #+#    #+#             */
-/*   Updated: 2024/10/30 08:08:17 by iazoubi          ###   ########.fr       */
+/*   Updated: 2024/10/31 14:22:52 by iazoubi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	print_stats(t_philo *philo, char *status)
-{
-	pthread_mutex_lock(&philo->table->data_mutex);
-	if (!philo->table->end_sim)
-	{
-		pthread_mutex_lock(&philo->table->print_mutex);
-			printf("%ld %d %s\n", get_timestamp() - philo->table->start_sim \
-			, philo->id, status);
-		pthread_mutex_unlock(&philo->table->print_mutex);
-	}
-	pthread_mutex_unlock(&philo->table->data_mutex);
-}
 void	cclean(t_table *table)
 {
 	int		i;

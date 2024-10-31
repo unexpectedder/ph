@@ -6,7 +6,7 @@
 /*   By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 09:52:14 by iazoubi           #+#    #+#             */
-/*   Updated: 2024/10/30 09:07:05 by iazoubi          ###   ########.fr       */
+/*   Updated: 2024/10/31 13:43:10 by iazoubi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,8 @@ int		init_philos(t_table *table)
 	while (i < table->ph_nbr)
 	{
 		table->philos[i].id = 1 + i;
-		table->philos[i].full = 0;
 		table->philos[i].meals_counter = 0;
-		table->philos[i].last_meal = table->start_sim;
+		// table->philos[i].last_meal = table->start_sim;
 		table->philos[i].full = false;
 		if (i == (table->ph_nbr))
 		{
