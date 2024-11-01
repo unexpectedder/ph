@@ -6,7 +6,7 @@
 /*   By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 06:34:28 by iazoubi           #+#    #+#             */
-/*   Updated: 2024/11/01 04:33:13 by iazoubi          ###   ########.fr       */
+/*   Updated: 2024/11/01 04:35:50 by iazoubi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_fork
 typedef struct s_table
 {
 	long			ph_nbr;
-	long			time_die;
+	long			time_die; // strncmp dont forget it 
 	long			time_eat;
 	long			time_sleep;
 	long			max_meals;
@@ -71,7 +71,6 @@ int		start_simulation(t_table *table);
 void	*moni(void *arg);
 void	is_sleep(long wait_time);
 void	*dining_cycle(t_philo *philo, t_table *table);
-
 int		death_checker(t_table *table, int ph_index);
 void	print_status(t_philo *philo, char *status);
 bool	ph_exitst(t_table *table, int i);

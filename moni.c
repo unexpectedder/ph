@@ -6,7 +6,7 @@
 /*   By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 16:25:41 by iazoubi           #+#    #+#             */
-/*   Updated: 2024/11/01 04:32:09 by iazoubi          ###   ########.fr       */
+/*   Updated: 2024/11/01 04:42:01 by iazoubi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	*monitor_routine(void *arg)
 		}
 		if (table->max_meals != -1 && full_count == table->ph_nbr)
 		{
-			count_mutex(table);
+			simulation_end(table);
 			return (NULL);
 		}
 		usleep(500);
