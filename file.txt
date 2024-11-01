@@ -1,17 +1,13 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   moni.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: iazoubi <iazoubi@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 16:25:41 by iazoubi           #+#    #+#             */
-/*   Updated: 2024/11/01 04:32:09 by iazoubi          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#include "philo.h"
-#include <string.h>
+void	*meals_handler(t_philo *philo, t_table *table)
+{
+	philo->full = true;
+	pthread_mutex_unlock(&table->data_mutex);
+	print_status(philo, "is eating");
+	is_sleep(table->time_eat);
+	pthread_mutex_unlock(&philo->l_fork->fork);
+	pthread_mutex_unlock(&philo->r_fork->fork);
+	return (NULL);
+}
 
 void	*dining_cycle(t_philo *philo, t_table *table)
 {
@@ -28,7 +24,7 @@ void	*dining_cycle(t_philo *philo, t_table *table)
 	philo->last_meal = get_timestamp();
 	philo->meals_counter++;
 	if (table->max_meals != -1 && philo->meals_counter == table->max_meals)
-		philo->full = true;
+		return (meals_handler(philo, table));
 	pthread_mutex_unlock(&table->data_mutex);
 	print_status(philo, "is eating");
 	is_sleep(table->time_eat);
@@ -47,6 +43,8 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	table = philo->table;
+	table->end_sim = false;
+	table->start_sim = get_timestamp();
 	if (philo->id % 2 == 0)
 	{
 		print_status(philo, "is thinking");
@@ -55,8 +53,7 @@ void	*routine(void *arg)
 	while (1)
 	{
 		pthread_mutex_lock(&table->death_mutex);
-		if (table->end_sim)
-		{
+		if (table->end_sim){
 			pthread_mutex_unlock(&table->death_mutex);
 			break ;
 		}
@@ -68,48 +65,28 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
-int	death_checker(t_table *table, int ph_index)
-{
-	pthread_mutex_lock(&table->death_mutex);
-	if (table->end_sim)
-		return (true);
-	pthread_mutex_unlock(&table->death_mutex);
-	pthread_mutex_lock(&table->data_mutex);
-	if ((get_timestamp() - table->philos[ph_index].last_meal) > table->time_die)
-	{
-		pthread_mutex_unlock(&table->data_mutex);
-		print_status(&table->philos[ph_index], "died");
-		pthread_mutex_lock(&table->death_mutex);
-		table->end_sim = true;
-		pthread_mutex_unlock(&table->death_mutex);
-		return (true);
-	}
-	pthread_mutex_unlock(&table->data_mutex);
-	return (false);
-}
-
 void	*monitor_routine(void *arg)
 {
 	t_table	*table;
+	int		i;
 
-	auto int i, full_count;
 	table = (t_table *)arg;
+	table->philos->full_count = 0;
 	while (1)
 	{
-		(1) && (full_count = 0), (i = 0);
+		i = 0;
 		while (i < table->ph_nbr)
 		{
-			if (death_checker(table, i))
+			if (ph_exitst(table, i))
 				return (NULL);
-			pthread_mutex_lock(&table->data_mutex);
-			if (table->philos[i].full)
-				full_count++;
-			pthread_mutex_unlock(&table->data_mutex);
 			i++;
 		}
-		if (table->max_meals != -1 && full_count == table->ph_nbr)
+		if (table->max_meals != -1 && \
+		table->philos->full_count == table->ph_nbr)
 		{
-			count_mutex(table);
+			pthread_mutex_lock(&table->death_mutex);
+			table->end_sim = true;
+			pthread_mutex_unlock(&table->death_mutex);
 			return (NULL);
 		}
 		usleep(500);
@@ -124,7 +101,6 @@ int	start_simulation(t_table *table)
 	int			index;
 
 	i = 0;
-	table->end_sim = false;
 	table->start_sim = get_timestamp();
 	while (i < table->ph_nbr)
 	{

@@ -39,6 +39,7 @@
 		"unordered_map": "cpp",
 		"utility": "cpp",
 		"vector": "cpp",
-		"philo.h": "c"
+		"philo.h": "c",
+		"string.h": "c"
 	}
 }
